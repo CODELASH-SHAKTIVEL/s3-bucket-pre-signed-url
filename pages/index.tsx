@@ -10,16 +10,22 @@ async function uploadToS3(e: ChangeEvent<HTMLFormElement>) {
     return null;
   }
 
-  // @ts-ignore
-  const fileType = encodeURIComponent(file.type);
-
-  const { data } = await axios.get(`/api/media?fileType=${fileType}`);
-
-  const { uploadUrl, key } = data;
-
-  await axios.put(uploadUrl, file);
-
-  return key;
+  try {
+    
+    // @ts-ignore
+    const fileType = encodeURIComponent(file.type);
+    console.log(fileType);
+  
+    const { data } = await axios.get(`/api/media?fileType=${fileType}`);
+  
+    const { uploadUrl, key } = data;
+  
+    await axios.put(uploadUrl, file);
+  
+    return key;
+  } catch (error) {
+    console.log(error,'Error uploading file'); 
+  }
 }
 
 function Upload() {
